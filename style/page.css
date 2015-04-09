@@ -1,0 +1,251 @@
+@font-face {
+	font-family: 'Open Sans';
+	src: url(../fonts/OpenSans-Regular.ttf);
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url(../fonts/OpenSans-Light.ttf);
+	font-weight: 300;
+}
+
+body,html {
+	margin:0px;
+	padding:0px;
+	background: #111;
+}
+
+
+::-webkit-input-placeholder {
+   color: #666;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #666;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #666;  
+}
+
+:-ms-input-placeholder {  
+   color: #666;  
+}
+
+
+table,tr,td {
+	padding:0px;
+	border-spacing:0px;
+	table-layout: fixed;
+}
+
+table.login-form td {
+	padding-bottom: 10px;
+}
+
+table.login-form {
+	width:100%;
+}
+
+table.login-form input[type=text],table.login-form input[type=password] {
+
+	font-family: 'Open Sans';
+	font-weight: 300;
+	padding:10px 5px;
+	border:0px;
+	outline: none;
+	font-size:14px;
+	color:#ddd;
+	box-sizing:border-box;
+	width:100%;
+	background: none;
+
+}
+
+label {
+	cursor: pointer;
+}
+
+table.login-form label.text {
+	width:100%;
+	height:1px;
+	display:block;
+	position: relative;
+	background: #008b8b;
+	top:-1px;
+	transition:box-shadow 0.1s linear;
+}
+
+table.login-form input:focus+label.text {
+	box-shadow: 0px 0px 10px 1px #008b8b;
+}
+
+#login_submit {
+	display: none;
+}
+
+#login_submit+label {
+	font-family: 'Open Sans';
+	font-size:14px;
+	color:#008b8b;
+	transition: text-shadow 0.1s linear;
+}
+
+#login_submit+label:hover {
+	text-shadow:0px 0px 10px #008b8b;
+}
+
+
+table.links {
+	margin-top:20px;
+	width:100%;
+	padding:0px 50px;
+}
+
+table.links td {
+	text-align: center;
+}
+
+a {
+	font-family: 'Open Sans';
+	font-size:14px;
+	color:#008b8b;
+	transition: text-shadow 0.1s linear;
+	text-decoration: none;
+}
+
+a:hover {
+	text-shadow:0px 0px 10px #008b8b;
+}
+
+
+@-webkit-keyframes greenShift {
+	0%{
+		transform: translate(0px,0);
+		visibility: visible;
+	}
+	1.0%{
+		transform: translate(-10px,0);
+		visibility: visible;	
+	}
+	3.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	3.5%{
+		transform: translate(-10px,0);
+		visibility: visible;	
+	}
+	4.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	4.5%{
+		transform: translate(-10px,0);
+		visibility: visible;	
+	}
+	5.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	7.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	8.5%{
+		transform: translate(-10px,0);
+		visibility: visible;	
+	}
+	10.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	100%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+}
+
+@-webkit-keyframes redShift {
+	0%{
+		transform: translate(10px,0);
+		visibility: visible;	
+	}
+	0.5%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	1.0%{
+		transform: translate(10px,0);
+		visibility: visible;	
+	}
+	1.5%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+
+
+	3.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	4.5%{
+		transform: translate(10px,0);
+		visibility: visible;	
+	}
+	6.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+
+	7.0%{
+		transform: translate(10px,0);
+		visibility: visible;	
+	}
+	7.5%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	8.0%{
+		transform: translate(10px,0);
+		visibility: visible;	
+	}
+	8.5%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	10.0%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+	100%{
+		transform: translate(0px,0);
+		visibility: visible;	
+	}
+}
+
+.green-shift {
+	height:100%;
+	width:100%;
+	background: url(../anim.png) center center;
+	background-size: contain;
+	opacity:0.4;
+	position:relative;
+	-webkit-filter: hue-rotate(300deg) blur(2px);
+	-webkit-animation: greenShift 6s infinite;
+	-webkit-animation-delay: 3s;
+}
+
+.red-shift {
+	height:100%;
+	width:100%;
+	background: url(../anim.png) center center;
+	background-size: contain;
+	opacity:0.4;
+	position:relative;
+	top:-100%;
+	-webkit-filter: hue-rotate(120deg) blur(2px);
+	-webkit-animation: redShift 6s infinite;
+	-webkit-animation-delay: 3s;
+}

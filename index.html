@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="./style/crt.css" />
+	<link rel="stylesheet" type="text/css" href="./style/page.css" />
+	<script type="text/javascript" src="./scripts/scramble.js"></script>
+</head>
+<body>
+
+	
+<div class="crt_container on" id="container" style="height:100%; width:100%; position:absolute; top:0px; left:0px; overflow:hidden;">
+	<div style="width:100%; height:100%; position:absolute; left:0px; top:0px;">
+		<table style="width:100%; height:100%;">
+			<tr>
+				<td style="text-align:center; vertical-align:middle; color:#008b8b; font-family:'Open Sans'; font-size:42px;" id="verified"></td>
+			</tr>
+		</table>
+	</div>
+
+	<div style="height:100%; width:100%; position:absolute; left:0px; top:0px;" class="crt_screen">
+		<canvas id="canvas" style="position:absolute; left:0px; top:0px;"></canvas>
+		
+		<div style="height:100%; width:100%; position:absolute; top:0px; left:0px; display:block;">
+			<div style=" margin:50px auto; height:200px; width:200px;">
+				<div class="green-shift"></div>
+				<div class="red-shift"></div>
+				<div style="height:100%; width:100%; background: url(anim.png) center center; background-size: contain; opacity:0.6; position:relative; top:-200%;"></div>
+			</div>
+
+
+			<div id="box_container" style="width:400px; margin:50px auto 0 auto; padding:20px;">
+				<table class="login-form" id="login" style="display:table; width:100%; padding-bottom:20px;">
+					<tr>
+						<td colspan=4>
+							<input name="user" id="user" type="text" placeholder="user"/>
+							<label for="pass" class="text"/>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=4>
+							<input name="password" id="pass" type="password" placeholder="password"/>
+							<label for="pass" class="text" />
+						</td>
+
+					</tr>
+					<tr>
+						<td colspan=4 style="text-align:right; padding-top:20px;">
+							<input id="login_submit" onclick="submitLogin()" type="submit" />
+							<label for="login_submit">> submit</label>
+						</td>
+
+					</tr>
+				</table>
+				<table class="rules" id="rules" style="width:100%; display:none">
+					<tr>
+						<td>
+							<span style="color:#ddd; font-family:'Open Sans'; font-size:18px;">Rules</span>
+							<ol style="color:#ddd; font-family:'Open Sans'; font-size:14px; padding-left:25px;">
+								<li>One account per user. Participants have to be a student of an Indian Institute.</li>
+								<li>Multiple IDs, People playing in groups will be banned</li>
+								<li>All the answers will be in lowercase</li>
+								<li>The Hawk hates numerals, use alphabets only</li>
+								<li>In case of a tie at the top spot, the timestamp will be taken into account</li>
+								<li>The Event Heads have the ultimate authority</li>
+							</ol>
+						</td>
+					</tr>
+				</table>
+				<table class="rules" id="about" style="width:100%; display:none;">
+					<tr>
+						<td>
+							<span style="color:#ddd; font-family:'Open Sans'; font-size:18px;">About</span>
+							<p style="color:#ddd; font-family:'Open Sans'; font-size:14px;">CyberHawk is an online scavenging hunt where you match wits against hundreds of participants solving cryptic puzzles and collecting small but vital clues to advance through the levels. Each level will consist of a puzzle and clues could be hidden anywhere in the page; so think different,think wild and you may crack that elusive puzzle. The Hawk treats everyone equally, so the questions can be based on anything under the sun. Remember, you are to trust no one except the Internet.</p>
+						</td>
+					</tr>
+				</table>
+				<table class="rules" id="team" style="width:100%; display:none;">
+					<tr>
+						<td>
+							<span style="color:#ddd; font-family:'Open Sans'; font-size:18px;">root</span>
+							<p style="color:#ddd; font-family:'Open Sans'; font-size:14px; margin-top:5px; margin-left:5px;">Aakarsh Singh</p>
+							<span style="color:#ddd; font-family:'Open Sans'; font-size:18px;">admins</span>
+							<p style="color:#ddd; font-family:'Open Sans'; font-size:14px; margin-top:5px; margin-left:5px;">Manish Shetty<br/>Harshvardhan Sawal<br/>Rohit Malhotra</p>
+						</td>
+					</tr>
+				</table>
+				<table class="links">
+					<tr>
+						<td><a href="#/register">> register &lt;</a></td>
+						<td><a href="#/rules">> rules &lt;</a></td>
+						<td><a href="#/about">> about &lt;</a></td>
+						<td><a href="#/team">> team &lt;</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+</body>
+
+
+<script type="text/javascript">
+EasingFunctions = {
+  // no easing, no acceleration
+  linear: function (t) { return t },
+  // accelerating from zero velocity
+  easeInQuad: function (t) { return t*t },
+  // decelerating to zero velocity
+  easeOutQuad: function (t) { return t*(2-t) },
+  // acceleration until halfway, then deceleration
+  easeInOutQuad: function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
+  // accelerating from zero velocity 
+  easeInCubic: function (t) { return t*t*t },
+  // decelerating to zero velocity 
+  easeOutCubic: function (t) { return (--t)*t*t+1 },
+  // acceleration until halfway, then deceleration 
+  easeInOutCubic: function (t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
+  // accelerating from zero velocity 
+  easeInQuart: function (t) { return t*t*t*t },
+  // decelerating to zero velocity 
+  easeOutQuart: function (t) { return 1-(--t)*t*t*t },
+  // acceleration until halfway, then deceleration
+  easeInOutQuart: function (t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
+  // accelerating from zero velocity
+  easeInQuint: function (t) { return t*t*t*t*t },
+  // decelerating to zero velocity
+  easeOutQuint: function (t) { return 1+(--t)*t*t*t*t },
+  // acceleration until halfway, then deceleration 
+  easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t }
+}
+</script>
+
+<script type="text/javascript">
+
+	function $id(obj) {
+		return document.getElementById(obj);
+	}
+
+
+	var canvas = $id("canvas")
+
+	var H = canvas.height = window.innerHeight;
+	var W = canvas.width = document.body.clientWidth;
+
+
+	var ctx = canvas.getContext("2d");
+
+	function line(_p1,_p2) {
+		var _frames = parseInt(Math.random()* 1000) + 500;
+		return {p1:_p1, op1:_p1,p2:_p2, op2:_p2, frames: _frames, frame:_frames}
+	}
+
+	var hlines = [], vlines=[];
+
+	for(var i=1;i<=3;i++)
+	{
+		hlines.push(new line(-10,10*i));
+	}
+
+	for(var i=1;i<=3;i++)
+	{
+		vlines.push(new line(-10,10*i));
+	}
+
+	var colors = ["#008b8b","#111111","#bb0000"];
+
+	function drawLines(margin,length,lines,type) {
+		for(var i =0; i< lines.length;i++)
+		{
+			if(lines[i].frame==lines[i].frames){
+				lines[i].frame=0;
+				lines[i].p1 += lines[i].op1;
+				lines[i].p2 += lines[i].op2;
+				lines[i].op1 = Math.random() * (margin+60) - 30 - lines[i].p1;
+				lines[i].op2 = Math.random() * (margin+60) - 30 - lines[i].p2;
+			}
+			lines[i].frame++;
+			var p1 = lines[i].p1 + lines[i].op1 * EasingFunctions.easeInOutQuart(lines[i].frame/lines[i].frames);
+			var p2 = lines[i].p2 + lines[i].op2 * EasingFunctions.easeInOutQuart(lines[i].frame/lines[i].frames);
+
+			ctx.strokeStyle = "#bbbbbb";
+
+			ctx.beginPath();
+
+			if(type=="h") {
+				ctx.moveTo(p1,-2);
+				ctx.lineTo(p2,length+2);
+			}
+			else if(type=="v") {
+				ctx.moveTo(-2,p1);
+				ctx.lineTo(length+2,p2);
+			}
+
+			ctx.stroke();
+			
+
+			var r = parseInt(Math.random()* 3000);
+
+			if(r<=2500)
+				ctx.strokeStyle = colors[1];
+			else if(r<=2750)
+				ctx.strokeStyle = colors[0];
+			else
+				ctx.strokeStyle = colors[2];
+
+			ctx.beginPath();
+			if(type=="h") {
+				ctx.moveTo(p1-1,-2);
+				ctx.lineTo(p2-1,length+2);
+			}
+			else if(type=="v") {
+				ctx.moveTo(-2,p1-1);
+				ctx.lineTo(length+2,p2-1);
+			}
+			ctx.stroke();
+
+		}
+	}
+
+	function draw() {
+
+		ctx.clearRect(0,0,W,H);
+		ctx.strokeStyle="#fff";
+		ctx.lineWidth=0.5;
+
+		drawLines(W,H,hlines,"h");
+		drawLines(H,W,vlines,"v");
+
+
+
+	}
+
+	setInterval(draw,10);
+
+	setTimeout(function() {
+		document.getElementById("container").className= "crt_container on";
+	},1000);
+
+
+	function hideAll() {
+		var tables = $id("box_container").getElementsByTagName("table");
+		for(var i=0;i< tables.length-1;i++)
+		{
+			tables[i].style.display="none";
+		}
+	}
+
+	var pages=["register","about","team","rules","play"];
+
+	window.onhashchange =  function() {
+
+
+		var loc = document.location.hash.substring(2);
+
+		if(pages.indexOf(loc)==-1 || loc=="play")
+			return;
+
+		$id("container").className="crt_container";
+			
+
+		setTimeout(function() {
+			var loc = document.location.hash.substring(2);
+
+			$id("container").className="crt_container on";
+			hideAll();
+			$id(loc).style.display="table";
+
+		},100);
+	};
+
+	function submitLogin() {
+
+		$id("container").className="crt_container off";
+		document.location.hash = "#/play";
+		
+		setTimeout(function() {
+			new scramble($id("verified"),"VERIFIED");
+		}, 1500);
+	}
+	
+</script>
+
+</html>

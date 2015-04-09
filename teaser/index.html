@@ -1,0 +1,184 @@
+<html>
+
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+	body, html {
+		margin:0px;
+		padding: 0px;
+
+		background: #000;
+	}
+
+	#blinker {
+		transition: opacity 0.1s linear;
+	}
+
+	#terminal {
+		word-wrap:break-word;
+	}
+
+	#hawk {
+		position:absolute;top: 0px;left:0px;height: 100%;width: 100%;background: url(hawk.png);background-size: cover;opacity: 0;background-position: center;
+		transition: opacity 3s linear;
+	}
+
+</style>
+
+</head>
+
+<body>
+<div style="height:100%; width:100%; box-sizing:border-box; padding:10px; font-family:'Lucida Console', 'Ubuntu Monospace', 'Droid Sans Mono' , 'Courier'; color:#00FF00; font-size:14px; text-shadow: 0px 0px 4px #00FF00; line-height:14px; outline:none; overflow:hidden;" id="container">
+<span id="terminal"></span><span style="margin-left:0px;" id="blinker">&#9608;</span>
+<div id="hawk"></div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+
+	function $id(obj) {
+		return document.getElementById(obj);
+	}
+
+	var caret = {
+		blinking : false,
+		blink: function () {
+			if($id("blinker").style.opacity=="0")
+				$id("blinker").style.opacity="1";
+			else
+			{
+				if(caret.blinking)
+					$id("blinker").style.opacity="0";
+			}
+		}
+	};
+
+	setInterval(caret.blink,400);
+
+
+	var script = "user >> master@iecse:~$:\ncommand >> /etc/init.d/hawk awaken\nreply >> /etc/init.d/hawk Permission Denied\nwait >> 500\ncommand >> sudo -i\nreply >> [sudo] password for root:\nwait >> 2000\nuser >> root@iecse:~#\ncommand >> /etc/init.d/hawk awaken\nreply >> \nwait >> 1000\nreply -i >> what have you done...\nwait >> 2000"
+
+	var i=0;
+
+	var user="";
+
+	var type = function (text) {
+		caret.blinking = false;
+		if(text) {
+			this.typeText=text;
+			this.typePosition =0;
+		}
+
+		if(this.typePosition==typeText.length)
+		{
+			this.typePosition=0;
+			typeText="";
+			i++;
+			setTimeout(start,1);
+			caret.blinking=true;
+			return;
+		}
+		$id("terminal").innerHTML += typeText.charAt(this.typePosition++);
+		setTimeout(type,80);
+	}
+
+	var hawkVisible=false;
+
+	function binary() {
+		var blocklength;
+		var block="";
+		if($id("container").scrollHeight <= $id("container").offsetHeight)
+		{
+			blocklength = 60 + parseInt(Math.random()*60);
+			
+		}
+		else
+		{
+			blocklength = 10 + parseInt(Math.random()*10);
+			
+		}
+
+		for(var i=0;i< blocklength;i++)
+			block+=parseInt(Math.random() * 2);
+		$id("terminal").innerHTML += block;
+		$id("container").scrollTop = $id("container").scrollHeight;
+		if($id("container").scrollHeight > $id("container").offsetHeight) {
+			$id("terminal").innerHTML = $id("terminal").innerHTML.substring(40);
+			if(!hawkVisible)
+			{
+				hawkVisible=true;
+				setInterval(displayHawk,2000);
+			}
+		}
+	}
+
+
+	function displayHawk() {
+
+		$id("hawk").style.opacity=0.5;
+	}
+
+	function start() {
+		var wait=1;
+		if(i==script.length)
+		{
+			$id("terminal").innerHTML +="<br/>";
+			setInterval(binary,2);
+			
+			return;
+		}
+
+		switch(script[i].split(" >> ")[0])
+		{
+			case "user": 
+				user=script[i].split(" >> ")[1] + " ";
+				i++;
+				setTimeout(start,wait);
+				break;
+
+			case "command": 
+				if(i>2)
+					$id("terminal").innerHTML+="<br/>";
+				$id("terminal").innerHTML+=user;
+				setTimeout(function(){type(script[i].split(" >> ")[1])},800);
+
+				break;
+			case "reply":
+				
+				$id("terminal").innerHTML += "</br>" + script[i].split(" >> ")[1];
+				i++;
+				setTimeout(start,10);
+
+				break;
+
+			case "reply -i":
+				
+				$id("terminal").innerHTML +=script[i].split(" >> ")[1];
+				i++;
+				setTimeout(start,10);
+
+				break;
+
+			case "wait":
+				
+				setTimeout(start,parseInt(script[i].split(" >> ")[1]));
+				i++;
+				break;
+			default:
+				i++;
+				setTimeout(start,wait);
+		}
+	}
+
+	function initTerminal(){ 
+		script= script.split("\n");
+		i=0;
+		start();
+	}
+
+	document.body.onload = initTerminal();
+
+</script>	
+
+</html>
